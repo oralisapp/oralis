@@ -1,0 +1,15 @@
+# Importação e consolidação de pacientes
+
+Na lista de pacientes, **Importar CSV** permite carregar um arquivo UTF-8 com cabeçalho (até 100 KB, 500 pacientes e 50 colunas), escolher separador e mapear as colunas. Datas usam AAAA-MM-DD. A prévia valida os mesmos campos do cadastro individual. Linhas com CPF ou nome e nascimento repetidos são ignoradas. Linhas inválidas impedem todo o lote: corrija o arquivo e visualize novamente antes de confirmar.
+
+A confirmação revalida sob bloqueio transacional. Uma falha desfaz todo o lote. A repetição do mesmo arquivo e mapeamento é identificada pelo hash por organização, inclusive quando faltam CPF/nascimento. O relatório mostra cada linha criada ou ignorada; a auditoria guarda identificadores e número da linha, não os valores pessoais. O bloqueio curto na tabela de pacientes também serializa cadastros de outras organizações durante o lote (limite de 500 linhas).
+
+Na ficha, **Consolidar cadastro duplicado** está disponível para proprietários e gestores com acesso a todas as unidades e permissão de escrita de pacientes. O operador seleciona o principal, confere os dados e informa um motivo. A operação exige as versões atuais de ambos os cadastros e recusa CPFs divergentes. A origem deve estar sem agendamentos abertos, rascunhos clínicos ou planos de tratamento em andamento. Não são permitidos ciclos, reconsolidação da origem ou consolidação de um principal que já possui históricos vinculados.
+
+A consolidação arquiva a origem e cria um vínculo auditado e permanente com o principal. **Não copia dados pessoais, CPF, consentimentos, alertas, documentos ou lançamentos, nem reescreve prontuários finalizados.** Antes de novos atendimentos, confira as informações clínicas nos históricos vinculados e revise os dados do cadastro principal. Cada ficha mostra links explícitos para os registros originais; cada aba continua exibindo o histórico daquele cadastro. As permissões continuam sendo verificadas ao abrir cada histórico. O acesso do paciente no portal permanece restrito à identidade original, sem ganhar acesso a outros cadastros.
+
+Novos agendamentos e registros de atendimento devem usar o principal; gatilhos impedem vincular novos atendimentos à origem consolidada. Operações sobre o histórico original, como adendos clínicos e quitação de cobranças anteriores, continuam possíveis segundo as permissões existentes. Nenhum dado histórico é apagado. A associação não oferece desfazer automático.
+
+Aplicar a migração `0015_patient_consolidation` antes de disponibilizar as telas. Regressões: `patient-import-merge.spec.ts` e `patients.spec.ts`.
+
+Para executar a suíte API sem repetir a análise de tipos dentro do Jest: `node node_modules/jest/bin/jest.js --config apps/api/jest-isolated.config.cjs --runInBand`. Esse modo apenas transpila os testes; execute também `npm run typecheck` como verificação separada. A suíte aplica migrações e limpa somente o banco de testes configurado em `DATABASE_URL_TEST`; não execute processos de testes simultâneos no mesmo banco.

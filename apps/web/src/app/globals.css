@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+/*
+ * Design system do Oralis Cloud.
+ * Paleta: verde floresta, lima e superfícies claras.
+ * Cores semânticas compartilhadas entre os temas claro e escuro.
+ * O modo escuro segue o sistema, a menos que o usuário escolha um tema.
+ */
+:root {
+  color-scheme: light;
+  --bg: #f5f5ef;
+  --surface: #ffffff;
+  --surface-2: #f0f1eb;
+  --surface-3: #e7eae1;
+  --border: #e0e5da;
+  --border-strong: #b7c6c7;
+  --text: #233d34;
+  --text-muted: #627268;
+  --text-subtle: #6a786f;
+
+  --primary: #285c45;
+  --primary-hover: #194731;
+  --primary-soft: #e8eedf;
+  --primary-text: #28543d;
+  --on-primary: #ffffff;
+
+  --accent: #3f8f72;
+  --accent-soft: #e3f2ea;
+  --accent-text: #1f6a4f;
+
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+  --warning: #9a4a07;
+  --warning-soft: #fdf1e2;
+  --info-soft: #e7eefb;
+  --info-text: #234b9a;
+
+  --ring: #2b8ea1;
+  --shadow: 0 1px 2px rgb(16 42 48 / 0.06), 0 4px 16px rgb(16 42 48 / 0.06);
+  --shadow-lg: 0 8px 32px rgb(16 42 48 / 0.16);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #101a16;
+    --surface: #17241d;
+    --surface-2: #1c2c23;
+    --surface-3: #26392e;
+    --border: #304337;
+    --border-strong: #335058;
+    --text: #e4eef0;
+    --text-muted: #9db1b6;
+    --text-subtle: #7d9399;
+    --primary: #b9dd8d;
+    --primary-hover: #cbe9a5;
+    --primary-soft: #263c27;
+    --primary-text: #d1eab7;
+    --on-primary: #152614;
+    --accent: #6cc3a0;
+    --accent-soft: #143429;
+    --accent-text: #92d9bb;
+    --danger: #f2827a;
+    --danger-soft: #3a1714;
+    --warning: #f2b26b;
+    --warning-soft: #3a2611;
+    --info-soft: #17264a;
+    --info-text: #a9c2f5;
+    --ring: #cbe9a5;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 8px 32px rgb(0 0 0 / 0.5);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #101a16;
+  --surface: #17241d;
+  --surface-2: #1c2c23;
+  --surface-3: #26392e;
+  --border: #304337;
+  --border-strong: #335058;
+  --text: #e4eef0;
+  --text-muted: #9db1b6;
+  --text-subtle: #7d9399;
+  --primary: #b9dd8d;
+  --primary-hover: #cbe9a5;
+  --primary-soft: #263c27;
+  --primary-text: #d1eab7;
+  --on-primary: #152614;
+  --accent: #6cc3a0;
+  --accent-soft: #143429;
+  --accent-text: #92d9bb;
+  --danger: #f2827a;
+  --danger-soft: #3a1714;
+  --warning: #f2b26b;
+  --warning-soft: #3a2611;
+  --info-soft: #17264a;
+  --info-text: #a9c2f5;
+  --ring: #cbe9a5;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 8px 32px rgb(0 0 0 / 0.5);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--text);
+  --color-muted: var(--text-muted);
+  --color-subtle: var(--text-subtle);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-text: var(--primary-text);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-info-soft: var(--info-soft);
+  --color-info-text: var(--info-text);
+  --color-ring: var(--ring);
+  --font-sans: 'Segoe UI', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --shadow-card: var(--shadow);
+  --shadow-pop: var(--shadow-lg);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-feature-settings: "tnum" 1, "cv11" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--primary-soft);
+}
+
+dialog::backdrop {
+  background: rgb(6 20 24 / 0.45);
+  backdrop-filter: blur(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes oralis-rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: oralis-rise 160ms ease-out both;
+}
+
+/* Oralis Atelier — interface clínica, calma e precisa. */
+:root { --lime: #d7edaa; --forest: #183e2d; --shadow: 0 2px 3px #233d3403, 0 8px 30px #233d3404; }
+.font-display { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; letter-spacing: -.045em; }
+body { letter-spacing: -.015em; }
+button:not(:disabled), a, select, summary { -webkit-tap-highlight-color: transparent; }
+button:not(:disabled), summary { cursor: pointer; }
+.oralis-card { min-width: 0; }
+.page-heading { animation: oralis-rise 350ms ease-out both; }
+.page-heading h1 { line-height: 1.18; overflow-wrap: anywhere; }
+.overview-hero h1 { overflow-wrap: anywhere; }
+.workspace-main > * { min-width: 0; }
+.skip-link { position: fixed; top: -70px; left: 20px; z-index: 100; background: var(--surface); padding: 12px 20px; border-radius: 12px; }
+.skip-link:focus { top: 12px; }
+.sidebar { background: #183e2d; color: #ebf0e8; }
+.sidebar .oralis-logo { color: #f4f8ee; }
+.sidebar .oralis-logo > span > span { color: #d7edaa; }
+.sidebar .oralis-logo svg rect { fill: #d7edaa; }
+.sidebar .oralis-logo svg path { stroke: #183e2d; }
+.sidebar .oralis-logo svg circle { fill: #183e2d; }
+.nav-caption { color: #a4bbac; font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.nav-link { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 11px; font-size: 13px; font-weight: 600; color: #c0d1c5; transition: background .18s, color .18s; }
+.nav-link:hover { background: #ffffff0c; color: white; }
+.nav-link[aria-current=page] { background: #d7edaa; color: #183e2d; box-shadow: 0 4px 14px #081e1720; }
+.nav-link[aria-current=page]::after { content: ''; width: 5px; height: 5px; margin-left: auto; border-radius: 50%; background: currentColor; }
+.sidebar-footer { background: #ffffff06; border: 1px solid #ffffff14; }
+.overview-hero { position: relative; overflow: hidden; border: 1px solid var(--border); background: var(--surface); border-radius: 22px; }
+.hero-art { position: absolute; width: 320px; height: 320px; right: -10px; top: -100px; pointer-events: none; color: var(--accent); opacity: .16; }
+.hero-art span { position: absolute; inset: 0; border: 1px solid currentColor; border-radius: 50%; }
+.hero-art span:nth-child(2) { inset: 35px; }
+.hero-art span:nth-child(3) { inset: 70px; }
+.hero-art span:nth-child(4) { inset: 105px; background: currentColor; }
+.stat-card { position: relative; overflow: hidden; transition: transform .2s, border-color .2s; }
+.stat-card:hover { transform: translateY(-3px); border-color: var(--border-strong); }
+.stat-card .stat-mark { position: absolute; width: 75px; height: 75px; border: 15px solid currentColor; border-radius: 50%; right: -24px; bottom: -26px; opacity: .06; }
+.day-progress { background: #183e2d; color: #f5f8ef; border-color: #183e2d; }
+.day-progress-track { background: #ffffff16; }
+.appointment-row { transition: background .18s; }
+.appointment-row:hover { background: var(--surface-2); }
+.avatar-tile { background: var(--primary-soft); color: var(--primary-text); border: 1px solid var(--border); border-radius: 14px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.flow-lane { background: var(--surface-2); border: 1px solid var(--border); border-radius: 15px; }
+.flow-lane > header { border-bottom: 1px dashed var(--border-strong); }
+.patient-row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr) 24px; gap: 16px; align-items: center; }
+.auth-story { background: #183e2d; color: #f1f5e9; }
+.auth-story .oralis-logo { color: #f1f5e9; }
+.auth-story .oralis-logo > span > span { color: #d7edaa; }
+.auth-story .oralis-logo svg rect { fill: #d7edaa; }
+.auth-story .oralis-logo svg path { stroke: #183e2d; }
+.auth-story .oralis-logo svg circle { fill: #183e2d; }
+.auth-orbit { width: min(34vw, 430px); aspect-ratio: 1; border: 1px solid #d7edaa30; border-radius: 50%; display: grid; place-items: center; position: relative; }
+.auth-orbit::before, .auth-orbit::after { content: ''; position: absolute; inset: 12%; border: 1px solid #d7edaa35; border-radius: 50%; }
+.auth-orbit::after { inset: 25%; background: #d7edaa0d; }
+.orbit-core { font-family: Georgia, serif; font-size: 125px; font-style: italic; color: #d7edaa; z-index: 1; line-height: 1; }
+.orbit-label { position: absolute; z-index: 2; border-radius: 40px; background: #264d39; border: 1px solid #ffffff20; padding: 10px 16px; color: #e4eddc; font-size: 12px; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 25px #102d2925; }
+@media (max-width: 639px) { .patient-row { grid-template-columns: minmax(0, 1fr) 20px; gap: 8px; } .patient-row .patient-secondary { display: none; } .hero-art { right: -170px; opacity: .1; } }
+@media (prefers-reduced-motion: no-preference) { .overview-grid > * { animation: oralis-rise 400ms ease-out both; } .overview-grid > :nth-child(2) { animation-delay: 60ms; } .overview-grid > :nth-child(3) { animation-delay: 120ms; } .overview-grid > :nth-child(4) { animation-delay: 180ms; } }

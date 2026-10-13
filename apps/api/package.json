@@ -1,0 +1,64 @@
+{
+  "name": "@oralis/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "API do Oralis Cloud (NestJS, monólito modular).",
+  "scripts": {
+    "build": "nest build",
+    "dev": "nest start --watch",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "seed:demo": "nest build && node dist/db/seed-demo.js",
+    "test": "jest --runInBand"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1150.0",
+    "@nestjs/common": "^11.1.0",
+    "@nestjs/core": "^11.1.0",
+    "@nestjs/platform-express": "^11.1.0",
+    "@nestjs/throttler": "^6.7.1",
+    "@node-rs/argon2": "^2.2.2",
+    "@oralis/shared": "*",
+    "cookie-parser": "^1.4.7",
+    "drizzle-orm": "^0.45.3",
+    "helmet": "^8.3.0",
+    "nodemailer": "^10.0.15",
+    "pg": "^8.23.1",
+    "qrcode": "^1.5.4",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.24",
+    "@nestjs/schematics": "^11.1.0",
+    "@nestjs/testing": "^11.1.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/multer": "^2.3.0",
+    "@types/node": "^24.19.1",
+    "@types/nodemailer": "^8.0.2",
+    "@types/pg": "^8.15.5",
+    "@types/qrcode": "^1.5.6",
+    "@types/supertest": "^7.2.1",
+    "drizzle-kit": "^0.31.11",
+    "jest": "^30.5.2",
+    "supertest": "^7.3.1",
+    "ts-jest": "^29.4.14",
+    "tsx": "^4.23.15"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "rootDir": ".",
+    "roots": [
+      "<rootDir>/test"
+    ],
+    "testRegex": ".*\\.spec\\.ts$",
+    "globalSetup": "<rootDir>/test/global-setup.ts",
+    "testTimeout": 30000
+  }
+}

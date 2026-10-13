@@ -1,0 +1,29 @@
+# Infraestrutura local para quem tem Docker. Não usado pelos testes desta
+# máquina (que usam `npm run db:start`), mas mantém a mesma versão do PostgreSQL.
+# As senhas vêm do .env — não há credenciais embutidas aqui.
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: oralis
+      POSTGRES_PASSWORD: ${DEV_DB_PASSWORD:?defina DEV_DB_PASSWORD no .env}
+      POSTGRES_DB: oralis_dev
+    ports:
+      - "127.0.0.1:${DEV_DB_PORT:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oralis -d oralis_dev"]
+      interval: 5s
+      retries: 10
+
+  # Reservado para a fila de jobs (lembretes, automações, importações).
+  # Ainda não utilizado no incremento 1.
+  redis:
+    image: redis:8
+    ports:
+      - "127.0.0.1:6379:6379"
+
+volumes:
+  pgdata:

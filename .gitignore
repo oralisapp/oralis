@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.next/
+next-env.d.ts
+coverage/
+*.tsbuildinfo
+
+# Dados locais do PostgreSQL embarcado e uploads de desenvolvimento
+.data/
+
+# Segredos e configuração local
+.env
+.env.*
+!.env.example
+
+# Skills copiadas da conta do usuário (não fazem parte do produto)
+.claude/skills/

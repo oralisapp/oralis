@@ -1,0 +1,28 @@
+# Imagem de produção da API (NestJS). Usada por Railway, Render, Fly etc.
+# Build a partir da raiz do repositório:  docker build -f Dockerfile.api -t oralis-api .
+FROM node:24-slim AS build
+WORKDIR /repo
+COPY package.json package-lock.json tsconfig.base.json ./
+COPY packages/shared/package.json packages/shared/
+COPY apps/api/package.json apps/api/
+COPY apps/web/package.json apps/web/
+RUN npm ci --ignore-scripts && npm rebuild @node-rs/argon2
+COPY packages/shared packages/shared
+COPY apps/api apps/api
+RUN npm run build -w @oralis/shared && npm run build -w @oralis/api
+
+FROM node:24-slim
+ENV NODE_ENV=production API_HOST=0.0.0.0
+WORKDIR /repo
+COPY package.json package-lock.json ./
+COPY packages/shared/package.json packages/shared/
+COPY apps/api/package.json apps/api/
+COPY apps/web/package.json apps/web/
+RUN npm ci --omit=dev -w @oralis/api -w @oralis/shared && npm cache clean --force
+COPY --from=build /repo/packages/shared/dist packages/shared/dist
+COPY --from=build /repo/apps/api/dist apps/api/dist
+COPY apps/api/drizzle apps/api/drizzle
+USER node
+WORKDIR /repo/apps/api
+# Aplica as migrações pendentes e só então sobe a API (falha de migração = não sobe).
+CMD ["sh", "-c", "node dist/db/migrate.js && node dist/main.js"]
